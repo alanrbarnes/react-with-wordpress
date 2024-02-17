@@ -7,6 +7,9 @@ import SinglePost from './components/SinglePost'
 import Update from './Update';
 // import { ReactDOM } from 'react';
 import { useParams } from 'react-router-dom';
+import Login from './components/Login';
+import Navbar from './components/navbar';
+import Dashboard from './components/dashboard';
 
 
 
@@ -22,8 +25,7 @@ class App extends React.Component {
         <div>
         {/* define routes in route component */}
         <Routes>
-            <Route path="/" element={<Home/>}>
-            </Route>
+        <Route path="/" element={<Home/>} />
 
             {/* <Route path="/post/:id" Component={SinglePost} render={(routerProps => <SinglePost {...props}/> )} >
             <h1> ID: {this.props.id}</h1>
@@ -31,6 +33,9 @@ class App extends React.Component {
             <Route path='/post/:id' type="Nada" Component={SinglePost} render={(matchProps) => 
                 <SinglePost {...matchProps} {...this.props} handleMatch={this.handleMatch} />} >
             </Route>
+
+            <Route path="/login" element={<Login/>} />
+            <Route path="/dashboard/:username" element={<Dashboard/>} />
 
             {/* <Route path="/post/:id" type="Nada" render={SinglePost} Component={SinglePost} >
             </Route> */}
