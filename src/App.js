@@ -1,19 +1,40 @@
-import React from 'react';
-import Home from "./components/home"
+import { React, ReactDOM } from 'react';
+import Home from "./Routes/Home/home.component";
 //import logo from './logo.svg';
 import './App.css';
-import {Route, Routes} from 'react-router'
-import SinglePost from './components/SinglePost'
-import Update from './Update';
-// import { ReactDOM } from 'react';
-import { useParams } from 'react-router-dom';
-import Login from './components/Login';
-import Navbar from './components/navbar';
-import Dashboard from './components/dashboard';
+//import {Route, Routes} from 'react-router'
+import { Route, Routes, Outlet, useParams } from 'react-router-dom';
+import Login from './Routes/Login/Login.component'
+import Dashboard from './Routes/Dashboard/dashboard.component';
+import SinglePost from './Routes/SinglePost/SinglePost.component'
+//import Update from './Update';
+import Navigation from './Routes/Navigation/Navigation.component';
 
 
 
-class App extends React.Component {
+
+const App = () => {
+  const container = document.getElementById('root');
+  return (
+      <Routes>
+        <Route path='/' element={<Navigation />} dashboard="false">
+            <Route index element={<Home/>} />
+            <Route path='/post/:id' element={<SinglePost />} />
+            <Route path="/login" element={<Login/>} />
+            {/* <Route path="/dashboard/create-post" element={<CreatePost/>}/> */}
+        </Route>
+        <Route path="/dashboard/:username" element={<Dashboard/>} />
+
+        
+        
+
+      </Routes>
+  )
+}
+export default App;
+
+
+/*class App extends React.Component {
   render() {
     const container = document.getElementById('root');
 
@@ -23,19 +44,24 @@ class App extends React.Component {
     // const root = ReactDOM.createRoot(container);
     return (
         <div>
-        {/* define routes in route component */}
-        <Routes>
-        <Route path="/" element={<Home/>} />
+        /* define routes in route component */
+        
+        /*<Routes>
 
-            {/* <Route path="/post/:id" Component={SinglePost} render={(routerProps => <SinglePost {...props}/> )} >
+            <Route path="/" element={<Home/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/dashboard/:username" element={<Dashboard/>} />*/
+
+            {/* <Route path="/dashboard/create-post" element={<CreatePost/>}/> */}
+            
+            /*<Route path='/post/:id' type="Nada" Component={SinglePost} render={(matchProps) => 
+                <SinglePost {...matchProps} {...this.props} handleMatch={this.handleMatch} />} >
+            </Route>*/
+            
+             {/* <Route path="/post/:id" Component={SinglePost} render={(routerProps => <SinglePost {...props}/> )} >
             <h1> ID: {this.props.id}</h1>
             </Route> */}
-            <Route path='/post/:id' type="Nada" Component={SinglePost} render={(matchProps) => 
-                <SinglePost {...matchProps} {...this.props} handleMatch={this.handleMatch} />} >
-            </Route>
 
-            <Route path="/login" element={<Login/>} />
-            <Route path="/dashboard/:username" element={<Dashboard/>} />
 
             {/* <Route path="/post/:id" type="Nada" render={SinglePost} Component={SinglePost} >
             </Route> */}
@@ -51,14 +77,14 @@ class App extends React.Component {
             {/* <Route path="/" element={<Home/>} /> */}
             {/* <Route path="/post/:id" Component={SinglePost} /> */}
             
-        </Routes>
+        /*</Routes>
             
         </div>
         
       );
   }
 
-}
+}*/
 
 // const App1 = (
 //   <App
@@ -71,5 +97,5 @@ class App extends React.Component {
   
 //   };
 
-export default App;
+
 

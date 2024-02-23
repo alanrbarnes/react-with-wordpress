@@ -1,38 +1,27 @@
-import React from 'react'
-import Navbar from './navbar';
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { Router, Routes, Route, useParams,  browserHistory, IndexRoute } from 'react-router-dom'
-import Update from '../Update';
+// import Update from '../Update';
 // import Output from './Output';
 // import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
 // import {syncHistoryWithStore, routerReducer} from 'react-router-redux'
-import { withRouter } from 'react-router-dom';
-import Loader from '../Loader.gif';
+// import { withRouter } from 'react-router-dom';
+import Loader from '../../Loader.gif';
 import Moment from 'react-moment';
 
+    
+const SinglePost = () => {
+    //var url = window.location.pathname;
+    const [id, setId] = useState('');
+    const [post, setPost] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const routeParams = useParams();
 
-
-class SinglePost extends React.Component {
-
-    constructor( props ) {
-        super( props );
-        this.props = props;
-        // console.log( this);
-        var url = window.location.pathname;
-        // var ID = url.substring(url.lastIndexOf('/') + 1);
-        // console.log("id: " + id);
-
-        this.state = {
-            id: url.substring(url.lastIndexOf('/') + 1),
-            loading: false,
-            post: {},
-            error: ''
-            // id: this.props.params;
-        }
-    }
-
-    componentDidMount() {
-        console.log(this.state.id);
+    useEffect(() => {
+        // setId(url.substring(url.lastIndexOf('/') + 1));
+        setId(id, routeParams.id);
+        setLoading(true);
 
         const wordPressSiteUrl = 'http://localhost:8080/codawp1/index.php';
         //const wordPressSiteUrl = 'https://krc.kingdomrunningclub.org';
@@ -40,22 +29,28 @@ class SinglePost extends React.Component {
             'Content-Type': 'text/plain',
             'Access-Control-Allow-Origin': '*'
         };
-        this.setState( {loading: true}, () => {
-            axios.get( `${wordPressSiteUrl}/wp-json/wp/v2/posts/${this.state.id}`, headers )
-            // axios.get( `${wordPressSiteUrl}/wp-json/wp/v2/posts/`, headers )
-            .then( res => {
-                //console.warn( res.data );
-                this.setState( {loading: false, post: res.data })
-            })
-            .catch( error => this.setState( {loading: false, error: JSON.stringify(error.response.data.message) }))
-        });
-    }
 
-    render() {
-        const { post, error, loading } = this.state;
+        axios.get( `${wordPressSiteUrl}/wp-json/wp/v2/posts/${routeParams.id}`, headers )
+        .then((response) => {
+            setLoading(false);
+            setPost(response.data);
+            console.warn(response.data);
+        })
+        .catch((error) => {
+            setLoading(false);
+            setError(JSON.stringify(error.message));
+            //console.warn(error.message);
+        }) 
+        .finally(() => setLoading(false)); //this.setState( {loading: false, error: JSON.stringify(error.response.data.message) }))
+
+    }, []); //leave array empty to only load on first load
+    // console.log(this.state.id);
+
+        
+
+    //const { post, error, loading } = this.state;
         return(
             <div>
-            <Navbar/>
             { error && <div className="alert alert-danger">{ error }</div> }
                 { Object.keys( post ).length ? (
                     <div className="mt-5 post-container">
@@ -85,9 +80,7 @@ class SinglePost extends React.Component {
             </div>
             
         )
-    }
 }
-
 
 export default SinglePost;
 // export withRouter(SinglePost);
