@@ -3,10 +3,11 @@ import Home from "./Routes/Home/home.component";
 //import logo from './logo.svg';
 import './App.css';
 //import {Route, Routes} from 'react-router'
-import { Route, Routes, Outlet, useParams } from 'react-router-dom';
+import { Route, Routes, Router, Switch, Outlet, useParams } from 'react-router-dom';
 import Login from './Routes/Login/Login.component'
 import Dashboard from './Routes/Dashboard/dashboard.component';
 import SinglePost from './Routes/SinglePost/SinglePost.component'
+import CreatePost from './components/Dashboard/Posts/createPost.component';
 //import Update from './Update';
 import Navigation from './Routes/Navigation/Navigation.component';
 
@@ -15,15 +16,26 @@ import Navigation from './Routes/Navigation/Navigation.component';
 
 const App = () => {
   const container = document.getElementById('root');
+
   return (
       <Routes>
-        <Route path='/' element={<Navigation />} dashboard="false">
+        <Route path='/' element={<Navigation />} dashboard="false" loggedIn="false" >
             <Route index element={<Home/>} />
             <Route path='/post/:id' element={<SinglePost />} />
             <Route path="/login" element={<Login/>} />
+            
             {/* <Route path="/dashboard/create-post" element={<CreatePost/>}/> */}
         </Route>
         <Route path="/dashboard/:username" element={<Dashboard/>} />
+        <Route path='/dashboard/create-post' element={<CreatePost/>}></Route>
+        
+        {/* <Router>
+            <Switch>
+                <Route path="/dashboard/:username" element={<Dashboard/>} />
+                <Route path='/dashboard/create-post' element={<CreatePost/>}></Route>
+            </Switch>
+        </Router> */}
+        
 
         
         
